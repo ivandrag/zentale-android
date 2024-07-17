@@ -1,3 +1,13 @@
 <resources>
     <string name="app_name">Zentale</string>
+
+    <string name="login_sub_title_text">Personalized stories for adults and kids.</string>
+    <string name="login_description_text">Turn toys into unlimited text and audio stories.</string>
+    <string name="login_sign_in_with_google">Sign in with Google</string>
+    <string name="login_agree_with_terms_start">By signing in, you agree with our</string>
+    <string name="login_agree_with_terms_and">\u0020and\u0020</string>
+    <string name="login_terms_of_service">\u0020Terms of Service\u0020</string>
+    <string name="login_privacy_policy">\u0020Privacy Policy\u0020</string>
+    <string name="privacy_policy_url">https://www.zentale.io/privacy-policy</string>
+    <string name="terms_of_service_url">https://www.zentale.io/terms-of-service</string>
 </resources>

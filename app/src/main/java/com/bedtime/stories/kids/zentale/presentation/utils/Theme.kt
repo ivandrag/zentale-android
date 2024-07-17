@@ -1,7 +1,6 @@
 package com.bedtime.stories.kids.zentale.presentation.utils
 
 import android.app.Activity
-import android.os.Build
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Shapes
 import androidx.compose.material.Typography

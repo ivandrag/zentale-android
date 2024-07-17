@@ -55,6 +55,7 @@ dependencies {
     implementation(libs.androidx.foundation.layout.android)
     implementation(libs.compose.activity)
     implementation(libs.compose.navigation)
+    implementation(libs.lottie)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

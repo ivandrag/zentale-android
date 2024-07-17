@@ -18,6 +18,7 @@ composeNavigationFragmentKtx = "2.7.7"
 composeNavigationUiKtx = "2.7.7"
 foundationLayoutAndroid = "1.6.8"
 composeActivity = "1.9.0"
+lottie = "6.0.1"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -33,6 +34,8 @@ compose-material = { group = "androidx.compose.material", name = "material", ver
 compose-navigation = { group = "androidx.navigation", name = "navigation-compose", version.ref = "composeNavigationFragmentKtx" }
 androidx-foundation-layout-android = { group = "androidx.compose.foundation", name = "foundation-layout-android", version.ref = "foundationLayoutAndroid" }
 compose-activity = { group = "androidx.activity", name = "activity-compose", version.ref = "composeActivity" }
+lottie = { group = "com.airbnb.android", name = "lottie-compose", version.ref = "lottie" }
+
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

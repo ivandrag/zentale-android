@@ -20,6 +20,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.bedtime.stories.kids.zentale.presentation.login.LoginScreen
 import com.bedtime.stories.kids.zentale.presentation.utils.ZentaleTheme
 
 class MainActivity : ComponentActivity() {
@@ -41,9 +42,9 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun NavigationComponent() {
     val navController = rememberNavController()
-    NavHost(navController = navController, startDestination = "home") {
-        composable("home") { HomeScreen(navController) }
-        composable("details") { DetailsScreen(navController) }
+    NavHost(navController = navController, startDestination = "login") {
+        composable("login") { LoginScreen() }
+
     }
 }
 
