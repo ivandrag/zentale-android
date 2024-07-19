@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
+    alias(libs.plugins.google.services)
 }
 
 android {
@@ -27,7 +28,7 @@ android {
 
     buildTypes {
         release {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
@@ -56,6 +57,13 @@ dependencies {
     implementation(libs.compose.activity)
     implementation(libs.compose.navigation)
     implementation(libs.lottie)
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.koinCore)
+    implementation(libs.koinAndroid)
+    implementation(libs.koinCompose)
+    implementation(libs.firebase.auth.ktx)
+    implementation(libs.googleServicesAuth)
+    implementation(libs.oneTapCompose)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

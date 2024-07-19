@@ -19,6 +19,12 @@ composeNavigationUiKtx = "2.7.7"
 foundationLayoutAndroid = "1.6.8"
 composeActivity = "1.9.0"
 lottie = "6.0.1"
+googleServices = "4.4.2"
+firebase-bom = "33.1.2"
+koin = "3.4.3"
+firebaseAuthKtx = "23.0.0"
+googleServicesAuth = "21.2.0"
+oneTapCompose = "1.0.12"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -35,9 +41,15 @@ compose-navigation = { group = "androidx.navigation", name = "navigation-compose
 androidx-foundation-layout-android = { group = "androidx.compose.foundation", name = "foundation-layout-android", version.ref = "foundationLayoutAndroid" }
 compose-activity = { group = "androidx.activity", name = "activity-compose", version.ref = "composeActivity" }
 lottie = { group = "com.airbnb.android", name = "lottie-compose", version.ref = "lottie" }
-
+firebase-bom = { group = "com.google.firebase", name = "firebase-bom", version.ref = "firebase-bom" }
+koinCore = { group = "io.insert-koin", name = "koin-core", version.ref = "koin" }
+koinAndroid = { group = "io.insert-koin", name = "koin-android", version.ref = "koin" }
+koinCompose = { group = "io.insert-koin", name = "koin-androidx-compose", version.ref = "koin" }
+firebase-auth-ktx = { group = "com.google.firebase", name = "firebase-auth-ktx", version.ref = "firebaseAuthKtx" }
+googleServicesAuth = { group = "com.google.android.gms", name = "play-services-auth", version.ref = "googleServicesAuth" }
+oneTapCompose = { group = "com.github.stevdza-san", name = "OneTapCompose", version.ref = "oneTapCompose" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
-
+google-services = { id = "com.google.gms.google-services", version.ref = "googleServices" }

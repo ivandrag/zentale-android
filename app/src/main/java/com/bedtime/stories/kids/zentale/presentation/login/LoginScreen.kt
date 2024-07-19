@@ -2,6 +2,7 @@ package com.bedtime.stories.kids.zentale.presentation.login
 
 import android.content.Intent
 import android.net.Uri
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -31,12 +32,26 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.bedtime.stories.kids.zentale.R
 import com.bedtime.stories.kids.zentale.presentation.utils.LottieAnimation
+import com.stevdzasan.onetap.OneTapSignInWithGoogle
+import com.stevdzasan.onetap.rememberOneTapSignInState
 
 @Composable
 fun LoginScreen() {
     val context = LocalContext.current
+    val state = rememberOneTapSignInState()
+    OneTapSignInWithGoogle(
+        state = state,
+        clientId = stringResource(id = R.string.google_sign_in_client_id),
+        onTokenIdReceived = { tokenId ->
+//            viewModel.onSuccessfulLogin()
+        },
+        onDialogDismissed = { message ->
+//            viewModel.onErrorLogin()
+        }
+    )
     val annotatedString = buildAnnotatedString {
         withStyle(style = SpanStyle(color = Color.White)) {
             append(stringResource(id = R.string.login_agree_with_terms_start))
@@ -125,7 +140,9 @@ fun LoginScreen() {
                 )
                 Column {
                     Button(
-                        onClick = { },
+                        onClick = {
+                            state.open()
+                        },
                         modifier = Modifier
                             .fillMaxWidth(),
                         shape = RoundedCornerShape(6.dp),
