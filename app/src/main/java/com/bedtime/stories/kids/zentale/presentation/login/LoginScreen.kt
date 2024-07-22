@@ -35,20 +35,25 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.bedtime.stories.kids.zentale.R
 import com.bedtime.stories.kids.zentale.presentation.utils.LottieAnimation
+import com.google.firebase.auth.GoogleAuthProvider
 import com.stevdzasan.onetap.OneTapSignInWithGoogle
 import com.stevdzasan.onetap.rememberOneTapSignInState
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
-fun LoginScreen() {
+fun LoginScreen(
+    viewModel: LoginViewModel = koinViewModel()
+) {
     val context = LocalContext.current
     val state = rememberOneTapSignInState()
     OneTapSignInWithGoogle(
         state = state,
         clientId = stringResource(id = R.string.google_sign_in_client_id),
         onTokenIdReceived = { tokenId ->
-//            viewModel.onSuccessfulLogin()
+            viewModel.onSuccessfulLogin(tokenId)
         },
         onDialogDismissed = { message ->
+            println("##Error message $message")
 //            viewModel.onErrorLogin()
         }
     )
@@ -123,8 +128,7 @@ fun LoginScreen() {
                     )
                     Text(
                         text = stringResource(id = R.string.login_description_text),
-                        style = MaterialTheme.typography.body1,
-                        textAlign = TextAlign.Center
+                        style = MaterialTheme.typography.body1
                     )
                 }
                 LottieAnimation(

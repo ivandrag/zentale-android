@@ -22,24 +22,19 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navigation
 import com.bedtime.stories.kids.zentale.presentation.login.LoginScreen
+import com.bedtime.stories.kids.zentale.presentation.login.LoginViewModel
 import com.bedtime.stories.kids.zentale.presentation.utils.ZentaleTheme
+import org.koin.androidx.compose.koinViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : ComponentActivity() {
-
-    private val viewModel: MainViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
         super.onCreate(savedInstanceState)
         setContent {
-            val navController = rememberNavController()
-            LaunchedEffect(viewModel) {
-                viewModel.event.collect { event ->
-                    handleEvent(event, navController)
-                }
-            }
             ZentaleTheme(
                 darkTheme = true
             ) {
@@ -49,43 +44,61 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
+}
 
-    private fun handleEvent(event: MainViewModel.Event, navController: NavHostController) {
-        when (event) {
-            MainViewModel.Event.LoggedIn -> {
-                println("##Logged in")
-                navController.navigate("home") {
-                    popUpTo("login") { inclusive = true }
-                }
+@Composable
+fun NavigationComponent() {
+    val mainViewModel: MainViewModel = koinViewModel()
+    val navController = rememberNavController()
+
+    LaunchedEffect(mainViewModel) {
+        mainViewModel.event.collect { event ->
+            handleEvent(event, navController)
+        }
+    }
+
+    NavHost(
+        navController = navController, startDestination = "root"
+    ) {
+        composable("root") { }
+        navigation(
+            route = "loggedOut", startDestination = "login"
+        ) {
+            composable("login") { LoginScreen() }
+        }
+        navigation(
+            route = "loggedIn", startDestination = "home"
+        ) {
+            composable("home") { HomeScreen() }
+        }
+    }
+}
+
+private fun handleEvent(event: MainViewModel.Event, navController: NavHostController) {
+    when (event) {
+        MainViewModel.Event.LoggedIn -> {
+            println("##Logged in")
+            navController.navigate("loggedIn") {
+                popUpTo("root") { inclusive = true }
             }
-            MainViewModel.Event.LoggedOut -> {
-                println("##Logged out")
-                navController.navigate("login") {
-                    popUpTo("home") { inclusive = true }
-                }
+        }
+
+        MainViewModel.Event.LoggedOut -> {
+            println("##Logged out")
+            navController.navigate("loggedOut") {
+                popUpTo("root") { inclusive = true }
             }
         }
     }
 }
 
 @Composable
-fun NavigationComponent() {
-    val navController = rememberNavController()
-    NavHost(navController = navController, startDestination = "login") {
-        composable("login") { LoginScreen() }
-        composable("home") { HomeScreen() }
-    }
-}
-
-@Composable
 fun HomeScreen() {
     Box(
-        contentAlignment = Alignment.Center,
-        modifier = Modifier.fillMaxSize()
+        contentAlignment = Alignment.Center, modifier = Modifier.fillMaxSize()
     ) {
         Button(
-            onClick = {  },
-            modifier = Modifier.padding(16.dp)
+            onClick = { }, modifier = Modifier.padding(16.dp)
         ) {
             Text(text = "Go to Details")
         }
@@ -95,12 +108,10 @@ fun HomeScreen() {
 @Composable
 fun DetailsScreen(navController: NavHostController) {
     Box(
-        contentAlignment = Alignment.Center,
-        modifier = Modifier.fillMaxSize()
+        contentAlignment = Alignment.Center, modifier = Modifier.fillMaxSize()
     ) {
         Button(
-            onClick = { navController.navigate("home") },
-            modifier = Modifier.padding(16.dp)
+            onClick = { navController.navigate("home") }, modifier = Modifier.padding(16.dp)
         ) {
             Text(text = "Go to Home")
         }
