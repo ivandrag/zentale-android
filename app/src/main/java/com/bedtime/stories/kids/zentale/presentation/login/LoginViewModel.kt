@@ -16,9 +16,9 @@ class LoginViewModel(
         firebaseAuth.signInWithCredential(GoogleAuthProvider.getCredential(tokenId, null))
             .addOnCompleteListener {
                 if (it.isSuccessful) {
-                    println("##Logged In success")
+
                 } else {
-                    println("##Logged In failed")
+
                 }
             }
     }

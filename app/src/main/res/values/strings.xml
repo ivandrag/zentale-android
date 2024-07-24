@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">Zentale</string>
     <string name="google_sign_in_client_id">702563434788-n08dp98o5mokqnsie27t100126povola.apps.googleusercontent.com</string>
+    <string name="home_title_text">Home</string>
+    <string name="profile_title_text">Profile</string>
 
     <string name="login_sub_title_text">Personalized stories for adults and kids.</string>
     <string name="login_description_text">Turn toys into unlimited text and audio stories.</string>
@@ -11,4 +13,6 @@
     <string name="login_privacy_policy">\u0020Privacy Policy\u0020</string>
     <string name="privacy_policy_url">https://www.zentale.io/privacy-policy</string>
     <string name="terms_of_service_url">https://www.zentale.io/terms-of-service</string>
+
+    <string name="home_add_a_toy_photo">Add a toy photo</string>
 </resources>

@@ -21,22 +21,22 @@ import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsControllerCompat
 
 val darkSlateBlue = Color(0xFF1E1E2E)
-val Purple700 = Color(0xFF3700B3)
+val Blue = Color(0xFF007AFF)
 val Teal200 = Color(0xFF03DAC5)
 val Teal700 = Color(0xFF018786)
 val White = Color(0xFFFFFFFF)
 val Black = Color(0xFF000000)
 
 private val DarkColorPalette = darkColors(
-    primary = Purple700,
-    primaryVariant = Purple700,
+    primary = Blue,
+    primaryVariant = Blue,
     secondary = Teal200,
     background = Black,
 )
 
 private val LightColorPalette = lightColors(
-    primary = Purple700,
-    primaryVariant = Purple700,
+    primary = Blue,
+    primaryVariant = Blue,
     secondary = Teal200,
     onPrimary = White,
     onSecondary = Black
@@ -56,7 +56,7 @@ fun ZentaleTheme(
     val activity = LocalContext.current as? Activity
     val window = activity?.window
     window?.let {
-        window.statusBarColor = (if (darkTheme) Black else Purple700).toArgb()
+        window.statusBarColor = (if (darkTheme) Black else Blue).toArgb()
         WindowCompat.setDecorFitsSystemWindows(window, false)
         val insetsController = WindowInsetsControllerCompat(window, window.decorView)
         insetsController.isAppearanceLightStatusBars = !darkTheme
