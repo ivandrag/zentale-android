@@ -15,4 +15,6 @@
     <string name="terms_of_service_url">https://www.zentale.io/terms-of-service</string>
 
     <string name="home_add_a_toy_photo">Add a toy photo</string>
+    <string name="home_turn_toys_into_stories">Turn toys into stories</string>
+    <string name="home_your_stories">Your stories, created with AI:</string>
 </resources>
