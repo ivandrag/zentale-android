@@ -64,6 +64,7 @@ dependencies {
     implementation(libs.firebase.auth.ktx)
     implementation(libs.googleServicesAuth)
     implementation(libs.oneTapCompose)
+    implementation(libs.materialIconsExtended)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

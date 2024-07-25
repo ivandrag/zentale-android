@@ -13,6 +13,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navigation
+import com.bedtime.stories.kids.zentale.presentation.createStory.CreateStoryScreen
 import com.bedtime.stories.kids.zentale.presentation.home.HomeScreen
 import com.bedtime.stories.kids.zentale.presentation.login.LoginScreen
 import com.bedtime.stories.kids.zentale.presentation.profile.ProfileScreen
@@ -61,6 +62,7 @@ fun NavigationComponent() {
         ) {
             composable("home") { HomeScreen(navController) }
             composable("profile") { ProfileScreen(navController) }
+            composable("createStory") { CreateStoryScreen(navController) }
         }
     }
 }

@@ -1,8 +1,6 @@
-package com.bedtime.stories.kids.zentale.presentation.home
+package com.bedtime.stories.kids.zentale.presentation.createStory
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -24,9 +22,10 @@ import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowForward
-import androidx.compose.material.icons.outlined.Person
+import androidx.compose.material.icons.automirrored.filled.Send
+import androidx.compose.material.icons.automirrored.outlined.ArrowBack
+import androidx.compose.material.icons.filled.Bolt
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
@@ -38,13 +37,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.bedtime.stories.kids.zentale.R
+import com.bedtime.stories.kids.zentale.presentation.home.ImageScrollView
 import com.bedtime.stories.kids.zentale.presentation.utils.shared.Toolbar
-import org.koin.androidx.compose.koinViewModel
 
 @Composable
-fun HomeScreen(
-    navController: NavHostController,
-    viewModel: HomeViewModel = koinViewModel()
+fun CreateStoryScreen(
+    navController: NavHostController
 ) {
     Scaffold(
         modifier = Modifier
@@ -52,10 +50,10 @@ fun HomeScreen(
             .padding(vertical = dimensionResource(id = R.dimen.safe_content_padding)),
         topBar = {
             Toolbar(
-                title = stringResource(id = R.string.home_title_text),
-                startIcon = Icons.Outlined.Person,
+                title = stringResource(id = R.string.create_story_title_text),
+                startIcon = Icons.AutoMirrored.Outlined.ArrowBack,
                 onStartIconClick = {
-                    navController.navigate("profile")
+                    navController.popBackStack()
                 })
         }
     ) { paddingValues ->
@@ -74,37 +72,7 @@ fun HomeScreen(
                         .verticalScroll(rememberScrollState())
                         .weight(1f, false)
                 ) {
-                    Text(
-                        style = MaterialTheme.typography.h2.copy(
-                            fontWeight = FontWeight.Bold,
-                            letterSpacing = (-1).sp
-                        ),
-                        text = stringResource(id = R.string.home_turn_toys_into_stories),
-                    )
-                    Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.double_content_padding)))
-                    Row {
-                        Image(
-                            painter = painterResource(id = R.drawable.rabbit),
-                            contentDescription = null,
-                            modifier = Modifier
-                                .size(120.dp)
-                                .clip(RoundedCornerShape(10.dp)),
-                            contentScale = ContentScale.Crop
-                        )
 
-                        Image(
-                            painter = painterResource(id = R.drawable.ic_arrow),
-                            contentDescription = null,
-                            modifier = Modifier
-                                .size(150.dp)
-                        )
-                    }
-                    Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.double_content_padding)))
-                    Text(
-                        text = stringResource(id = R.string.home_your_stories),
-                        style = MaterialTheme.typography.h6
-                    )
-                    ImageScrollView(viewModel = viewModel)
                 }
                 Button(
                     shape = RoundedCornerShape(
@@ -120,7 +88,7 @@ fun HomeScreen(
                         .fillMaxWidth()
                 ) {
                     Text(
-                        text = stringResource(id = R.string.home_add_a_toy_photo),
+                        text = stringResource(id = R.string.create_story_button_text),
                         style = MaterialTheme.typography.body1.copy(
                             color = MaterialTheme.colors.onBackground
                         ),
@@ -128,50 +96,13 @@ fun HomeScreen(
                     )
 
                     Icon(
-                        imageVector = Icons.AutoMirrored.Filled.ArrowForward,
+                        imageVector = Icons.Filled.Bolt,
                         contentDescription = null,
                         modifier = Modifier
                             .padding(start = 8.dp)
                             .size(24.dp),
                         tint = MaterialTheme.colors.onBackground
                     )
-                }
-            }
-        }
-    }
-}
-
-@Composable
-fun imageCell(imageResId: Int, storyId: String, onClick: (String) -> Unit) {
-    Box(
-        modifier = Modifier
-            .size(width = 150.dp, height = 200.dp)
-            .padding(8.dp)
-            .clip(RoundedCornerShape(10.dp))
-            .clickable { onClick(storyId) }
-    ) {
-        Image(
-            painter = painterResource(id = imageResId),
-            contentDescription = null,
-            modifier = Modifier.size(150.dp, 200.dp),
-            contentScale = ContentScale.Crop
-        )
-    }
-}
-
-@Composable
-fun ImageScrollView(viewModel: HomeViewModel) {
-    val images by viewModel.allImages
-
-    Row(
-        modifier = Modifier
-            .horizontalScroll(rememberScrollState())
-    ) {
-        images.keys.sorted().forEach { storyId ->
-            images[storyId]?.let { imageResId ->
-                imageCell(imageResId = imageResId, storyId = storyId) { selectedStoryId ->
-                    viewModel.selectedStoryId.value = selectedStoryId
-                    viewModel.isStoryViewPresented.value = true
                 }
             }
         }

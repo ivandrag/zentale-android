@@ -25,6 +25,7 @@ koin = "3.4.3"
 firebaseAuthKtx = "23.0.0"
 googleServicesAuth = "21.2.0"
 oneTapCompose = "1.0.12"
+materialIconsExtended = "1.6.1"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -48,6 +49,7 @@ koinCompose = { group = "io.insert-koin", name = "koin-androidx-compose", versio
 firebase-auth-ktx = { group = "com.google.firebase", name = "firebase-auth-ktx", version.ref = "firebaseAuthKtx" }
 googleServicesAuth = { group = "com.google.android.gms", name = "play-services-auth", version.ref = "googleServicesAuth" }
 oneTapCompose = { group = "com.github.stevdza-san", name = "OneTapCompose", version.ref = "oneTapCompose" }
+materialIconsExtended = { group = "androidx.compose.material", name = "material-icons-extended", version.ref = "materialIconsExtended" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

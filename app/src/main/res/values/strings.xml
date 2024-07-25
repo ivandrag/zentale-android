@@ -3,6 +3,7 @@
     <string name="google_sign_in_client_id">702563434788-n08dp98o5mokqnsie27t100126povola.apps.googleusercontent.com</string>
     <string name="home_title_text">Home</string>
     <string name="profile_title_text">Profile</string>
+    <string name="create_story_title_text">Create Story</string>
 
     <string name="login_sub_title_text">Personalized stories for adults and kids.</string>
     <string name="login_description_text">Turn toys into unlimited text and audio stories.</string>
@@ -17,4 +18,12 @@
     <string name="home_add_a_toy_photo">Add a toy photo</string>
     <string name="home_turn_toys_into_stories">Turn toys into stories</string>
     <string name="home_your_stories">Your stories, created with AI:</string>
+
+    <string name="create_story_button_text">Create Story</string>
+    <string name="create_take_a_picture">Take a picture</string>
+    <string name="create_or">or</string>
+    <string name="create_add_from_gallery">Add from gallery</string>
+    <string name="create_additional_filters">Additional filters (optional)</string>
+
+
 </resources>
