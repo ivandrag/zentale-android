@@ -2,7 +2,6 @@ package com.bedtime.stories.kids.zentale.presentation.login
 
 import android.content.Intent
 import android.net.Uri
-import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -14,11 +13,11 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.ClickableText
-import androidx.compose.material.Button
-import androidx.compose.material.ButtonDefaults
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Scaffold
-import androidx.compose.material.Text
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonColors
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -29,13 +28,10 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.bedtime.stories.kids.zentale.R
 import com.bedtime.stories.kids.zentale.presentation.utils.LottieAnimation
-import com.google.firebase.auth.GoogleAuthProvider
 import com.stevdzasan.onetap.OneTapSignInWithGoogle
 import com.stevdzasan.onetap.rememberOneTapSignInState
 import org.koin.androidx.compose.koinViewModel
@@ -110,7 +106,7 @@ fun LoginScreen(
                     )
                     Text(
                         text = stringResource(id = R.string.app_name),
-                        style = MaterialTheme.typography.h2
+                        style = MaterialTheme.typography.displayLarge
                     )
                     Spacer(
                         modifier = Modifier.height(
@@ -119,7 +115,7 @@ fun LoginScreen(
                     )
                     Text(
                         text = stringResource(id = R.string.login_sub_title_text),
-                        style = MaterialTheme.typography.h1
+                        style = MaterialTheme.typography.displaySmall
                     )
                     Spacer(
                         modifier = Modifier.height(
@@ -128,7 +124,7 @@ fun LoginScreen(
                     )
                     Text(
                         text = stringResource(id = R.string.login_description_text),
-                        style = MaterialTheme.typography.body1
+                        style = MaterialTheme.typography.headlineLarge
                     )
                 }
                 LottieAnimation(
@@ -150,9 +146,11 @@ fun LoginScreen(
                         modifier = Modifier
                             .fillMaxWidth(),
                         shape = RoundedCornerShape(6.dp),
-                        colors = ButtonDefaults.buttonColors(
-                            backgroundColor = Color.White,
-                            contentColor = Color.Black
+                        colors = ButtonColors(
+                            containerColor = Color.White,
+                            contentColor = Color.Black,
+                            disabledContainerColor = Color.White,
+                            disabledContentColor = Color.Black
                         )
                     ) {
                         Image(
@@ -164,7 +162,7 @@ fun LoginScreen(
                             modifier = Modifier.padding(
                                 horizontal = dimensionResource(id = R.dimen.half_content_padding)
                             ),
-                            style = MaterialTheme.typography.button
+                            style = MaterialTheme.typography.labelLarge
                         )
                     }
                     Spacer(modifier = Modifier.height(
@@ -187,7 +185,7 @@ fun LoginScreen(
                                     )
                                 }
                         },
-                        style = MaterialTheme.typography.caption,
+                        style = MaterialTheme.typography.labelSmall,
                         modifier = Modifier.fillMaxWidth()
                     )
                     Spacer(modifier = Modifier.height(

@@ -17,11 +17,11 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.Button
-import androidx.compose.material.Icon
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Scaffold
-import androidx.compose.material.Text
+import androidx.compose.material3.Button
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowForward
 import androidx.compose.material.icons.outlined.Person
@@ -75,9 +75,9 @@ fun HomeScreen(
                         .weight(1f, false)
                 ) {
                     Text(
-                        style = MaterialTheme.typography.h2.copy(
+                        style = MaterialTheme.typography.headlineLarge.copy(
                             fontWeight = FontWeight.Bold,
-                            letterSpacing = (-1).sp
+                            fontSize = 44.sp,
                         ),
                         text = stringResource(id = R.string.home_turn_toys_into_stories),
                     )
@@ -102,10 +102,11 @@ fun HomeScreen(
                     Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.double_content_padding)))
                     Text(
                         text = stringResource(id = R.string.home_your_stories),
-                        style = MaterialTheme.typography.h6
+                        style = MaterialTheme.typography.bodyLarge
                     )
                     ImageScrollView(viewModel = viewModel)
                 }
+
                 Button(
                     shape = RoundedCornerShape(
                         dimensionResource(id = R.dimen.double_content_padding)
@@ -121,8 +122,8 @@ fun HomeScreen(
                 ) {
                     Text(
                         text = stringResource(id = R.string.home_add_a_toy_photo),
-                        style = MaterialTheme.typography.body1.copy(
-                            color = MaterialTheme.colors.onBackground
+                        style = MaterialTheme.typography.bodyLarge.copy(
+                            color = MaterialTheme.colorScheme.onBackground
                         ),
                         modifier = Modifier.padding(dimensionResource(id = R.dimen.content_padding))
                     )
@@ -133,7 +134,7 @@ fun HomeScreen(
                         modifier = Modifier
                             .padding(start = 8.dp)
                             .size(24.dp),
-                        tint = MaterialTheme.colors.onBackground
+                        tint = MaterialTheme.colorScheme.onBackground
                     )
                 }
             }

@@ -1,10 +1,12 @@
 package com.bedtime.stories.kids.zentale.presentation
 
+import android.Manifest
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.material.Surface
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.tooling.preview.Preview
@@ -14,10 +16,15 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navigation
 import com.bedtime.stories.kids.zentale.presentation.createStory.CreateStoryScreen
+import com.bedtime.stories.kids.zentale.presentation.createStory.TakePictureScreen
 import com.bedtime.stories.kids.zentale.presentation.home.HomeScreen
 import com.bedtime.stories.kids.zentale.presentation.login.LoginScreen
 import com.bedtime.stories.kids.zentale.presentation.profile.ProfileScreen
 import com.bedtime.stories.kids.zentale.presentation.utils.ZentaleTheme
+import com.google.accompanist.permissions.ExperimentalPermissionsApi
+import com.google.accompanist.permissions.PermissionState
+import com.google.accompanist.permissions.isGranted
+import com.google.accompanist.permissions.rememberPermissionState
 import org.koin.androidx.compose.koinViewModel
 
 class MainActivity : ComponentActivity() {
@@ -29,7 +36,9 @@ class MainActivity : ComponentActivity() {
             ZentaleTheme(
                 darkTheme = true
             ) {
-                Surface {
+                Surface(
+                    color = MaterialTheme.colorScheme.background
+                ) {
                     NavigationComponent()
                 }
             }
@@ -37,10 +46,12 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+@OptIn(ExperimentalPermissionsApi::class)
 @Composable
 fun NavigationComponent() {
     val mainViewModel: MainViewModel = koinViewModel()
     val navController = rememberNavController()
+    val cameraPermissionState: PermissionState = rememberPermissionState(Manifest.permission.CAMERA)
 
     LaunchedEffect(mainViewModel) {
         mainViewModel.event.collect { event ->
@@ -62,7 +73,20 @@ fun NavigationComponent() {
         ) {
             composable("home") { HomeScreen(navController) }
             composable("profile") { ProfileScreen(navController) }
-            composable("createStory") { CreateStoryScreen(navController) }
+            composable("createStory") {
+                CreateStoryScreen(
+                    navController,
+                    hasCameraPermission = cameraPermissionState.status.isGranted,
+                    onCameraRequiredPermission = cameraPermissionState::launchPermissionRequest
+                )
+            }
+            composable("takePicture") {
+                TakePictureScreen(navController,
+                    onPhotoCaptured = {
+
+                    }
+                )
+            }
         }
     }
 }
