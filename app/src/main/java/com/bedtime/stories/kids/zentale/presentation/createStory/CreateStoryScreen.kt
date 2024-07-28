@@ -30,6 +30,7 @@ import android.Manifest
 import android.content.Context
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.net.Uri
 import android.util.Log
@@ -46,14 +47,17 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.filled.Camera
-import androidx.compose.material3.Card
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExtendedFloatingActionButton
+import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SheetValue
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment.Companion.BottomStart
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asImageBitmap
@@ -62,17 +66,14 @@ import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleOwner
-
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.rememberAsyncImagePainter
 import com.bedtime.stories.kids.zentale.presentation.utils.extensions.rotateBitmap
-import com.google.accompanist.permissions.ExperimentalPermissionsApi
-import com.google.accompanist.permissions.PermissionState
-import com.google.accompanist.permissions.isGranted
-import com.google.accompanist.permissions.rememberPermissionState
+import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
 import java.util.concurrent.Executor
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CreateStoryScreen(
     navController: NavHostController,
@@ -80,8 +81,13 @@ fun CreateStoryScreen(
     hasCameraPermission: Boolean,
     onCameraRequiredPermission: (() -> Unit)? = null
 ) {
-
+    val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
+    val scope = rememberCoroutineScope()
+    var showBottomSheet by remember { mutableStateOf(false) }
     val cameraState: CreateStoryState by viewModel.state.collectAsStateWithLifecycle()
+    val capturedPhoto: ImageBitmap? = remember(cameraState.capturedImage.hashCode()) {
+        cameraState.capturedImage?.asImageBitmap()
+    }
 
     Scaffold(
         modifier = Modifier
@@ -99,6 +105,31 @@ fun CreateStoryScreen(
         Box(
             modifier = Modifier.padding(paddingValues)
         ) {
+            if (showBottomSheet) {
+                ModalBottomSheet(
+                    onDismissRequest = {
+                        showBottomSheet = false
+                    },
+                    sheetState = sheetState
+                ) {
+                    CameraScreen(
+                        onPhotoCaptured = {
+                            showBottomSheet = false
+                            viewModel.storePhotoInGallery(it)
+                        }
+                    )
+                    Button(onClick = {
+                        scope.launch { sheetState.hide() }.invokeOnCompletion {
+                            if (!sheetState.isVisible) {
+                                showBottomSheet = false
+                            }
+                        }
+                    }) {
+                        Text("Hide bottom sheet")
+                    }
+                    println("capturedPhoto $capturedPhoto")
+                }
+            }
             Column(
                 modifier = Modifier
                     .fillMaxSize()
@@ -111,13 +142,32 @@ fun CreateStoryScreen(
                         .verticalScroll(rememberScrollState())
                         .weight(1f, false)
                 ) {
-                    PermissionsRequired(
-                        onPhotoCaptured = viewModel::storePhotoInGallery,
-                        onLastPhotoCaptured = cameraState.capturedImage,
-                        navController = navController,
-                        hasCameraPermission = hasCameraPermission,
-                        onCameraRequiredPermission = onCameraRequiredPermission
-                    )
+                    Button(
+                        onClick = {
+                            if (hasCameraPermission) {
+                                showBottomSheet = true
+                            } else {
+                                onCameraRequiredPermission?.invoke()
+                            }
+                        },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(vertical = 8.dp)
+                    ) {
+                        Text(text = stringResource(id = R.string.create_take_a_picture))
+                    }
+                    AddPhotoFromGallery(onImageFromGallery = {
+                        viewModel.updateCapturedPhotoState(it)
+                    })
+                    if (capturedPhoto != null) {
+                        Image(
+                            bitmap = capturedPhoto,
+                            contentDescription = null,
+                            modifier = Modifier
+                                .clip(CircleShape)
+                                .size(100.dp)
+                        )
+                    }
                 }
                 Button(
                     shape = RoundedCornerShape(
@@ -154,30 +204,21 @@ fun CreateStoryScreen(
     }
 }
 
-@OptIn(ExperimentalPermissionsApi::class)
+
 @Composable
-fun PermissionsRequired(
-    navController: NavHostController,
-    onCameraRequiredPermission: (() -> Unit)? = null,
-    hasCameraPermission: Boolean,
-    onPhotoCaptured: (Bitmap) -> Unit,
-    onLastPhotoCaptured: Bitmap?
+fun AddPhotoFromGallery(
+    onImageFromGallery: (Bitmap?) -> Unit
 ) {
     val context = LocalContext.current
-    var imageUri by remember {
-        mutableStateOf<Uri?>(null)
-    }
 
     val galleryLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.GetContent(),
         onResult = { uri ->
             uri?.let {
-                imageUri = it
-//                val bitmap = BitmapFactory.decodeFile(imageUri.path)
-//                val byteArray = ByteArrayOutputStream().use { outputStream ->
-//                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream)
-//                    outputStream.toByteArray()
-//                }
+                println("imageUri $it")
+                // convert uri to bitmap
+                    val bitmap = uriToBitmap(context, it)
+                    onImageFromGallery(bitmap)
             }
         }
     )
@@ -199,21 +240,6 @@ fun PermissionsRequired(
             .padding(16.dp),
         verticalArrangement = Arrangement.Center
     ) {
-        Button(
-            onClick = {
-                if (hasCameraPermission) {
-                    navController.navigate("takePicture")
-                } else {
-                    onCameraRequiredPermission?.invoke()
-                }
-            },
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = 8.dp)
-        ) {
-            Text(text = stringResource(id = R.string.create_take_a_picture))
-        }
-
         Button(
             onClick = {
                 val permission =
@@ -238,15 +264,90 @@ fun PermissionsRequired(
         ) {
             Text(text = stringResource(id = R.string.create_add_from_gallery))
         }
-        println("imageUri $imageUri")
-        imageUri?.let {
-            Image(
-                painter = rememberAsyncImagePainter(model = imageUri),
-                contentDescription = null,
-                modifier = Modifier
-                    .clip(CircleShape)
-                    .size(36.dp)
+    }
+}
+
+@Composable
+fun CameraScreen(
+    onPhotoCaptured: (Bitmap) -> Unit
+) {
+
+    val context: Context = LocalContext.current
+    val lifecycleOwner: LifecycleOwner = LocalLifecycleOwner.current
+    val cameraController: LifecycleCameraController =
+        remember { LifecycleCameraController(context) }
+
+    Scaffold(
+        modifier = Modifier.fillMaxSize(),
+        floatingActionButton = {
+            ExtendedFloatingActionButton(
+                text = { Text(text = "Take photo") },
+                onClick = {
+                    capturePhoto(
+                        context = context,
+                        cameraController = cameraController,
+                        onPhotoCaptured = onPhotoCaptured
+                    )
+                },
+                icon = {
+                    Icon(
+                        imageVector = Icons.Default.Camera,
+                        contentDescription = "Camera capture icon"
+                    )
+                }
             )
         }
+    ) { paddingValues: PaddingValues ->
+        Box(modifier = Modifier.fillMaxSize()) {
+            AndroidView(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(paddingValues),
+                factory = { context ->
+                    PreviewView(context).apply {
+                        layoutParams = LinearLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT)
+                        setBackgroundColor(Color.BLACK)
+                        implementationMode = PreviewView.ImplementationMode.COMPATIBLE
+                        scaleType = PreviewView.ScaleType.FILL_START
+                    }.also { previewView ->
+                        previewView.controller = cameraController
+                        cameraController.bindToLifecycle(lifecycleOwner)
+                    }
+                }
+            )
+        }
+    }
+}
+
+private fun capturePhoto(
+    context: Context,
+    cameraController: LifecycleCameraController,
+    onPhotoCaptured: (Bitmap) -> Unit
+) {
+    val mainExecutor: Executor = ContextCompat.getMainExecutor(context)
+
+    cameraController.takePicture(mainExecutor, object : ImageCapture.OnImageCapturedCallback() {
+        override fun onCaptureSuccess(image: ImageProxy) {
+            val correctedBitmap: Bitmap = image
+                .toBitmap()
+                .rotateBitmap(image.imageInfo.rotationDegrees)
+
+            onPhotoCaptured(correctedBitmap)
+            image.close()
+        }
+
+        override fun onError(exception: ImageCaptureException) {
+            Log.e("CameraContent", "Error capturing image", exception)
+        }
+    })
+}
+
+fun uriToBitmap(context: Context, uri: Uri): Bitmap? {
+    return try {
+        val inputStream = context.contentResolver.openInputStream(uri)
+        BitmapFactory.decodeStream(inputStream)
+    } catch (e: Exception) {
+        e.printStackTrace()
+        null
     }
 }

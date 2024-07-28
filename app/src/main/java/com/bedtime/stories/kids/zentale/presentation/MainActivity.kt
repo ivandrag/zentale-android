@@ -16,7 +16,6 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navigation
 import com.bedtime.stories.kids.zentale.presentation.createStory.CreateStoryScreen
-import com.bedtime.stories.kids.zentale.presentation.createStory.TakePictureScreen
 import com.bedtime.stories.kids.zentale.presentation.home.HomeScreen
 import com.bedtime.stories.kids.zentale.presentation.login.LoginScreen
 import com.bedtime.stories.kids.zentale.presentation.profile.ProfileScreen
@@ -78,13 +77,6 @@ fun NavigationComponent() {
                     navController,
                     hasCameraPermission = cameraPermissionState.status.isGranted,
                     onCameraRequiredPermission = cameraPermissionState::launchPermissionRequest
-                )
-            }
-            composable("takePicture") {
-                TakePictureScreen(navController,
-                    onPhotoCaptured = {
-
-                    }
                 )
             }
         }
