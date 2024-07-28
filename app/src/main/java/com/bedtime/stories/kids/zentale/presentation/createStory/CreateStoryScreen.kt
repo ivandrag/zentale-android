@@ -152,7 +152,7 @@ fun CreateStoryScreen(
                         },
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(vertical = 8.dp)
+                            .padding(vertical = dimensionResource(id = R.dimen.content_padding))
                     ) {
                         Text(text = stringResource(id = R.string.create_take_a_picture))
                     }
@@ -215,10 +215,8 @@ fun AddPhotoFromGallery(
         contract = ActivityResultContracts.GetContent(),
         onResult = { uri ->
             uri?.let {
-                println("imageUri $it")
-                // convert uri to bitmap
-                    val bitmap = uriToBitmap(context, it)
-                    onImageFromGallery(bitmap)
+                val bitmap = uriToBitmap(context, it)
+                onImageFromGallery(bitmap)
             }
         }
     )
