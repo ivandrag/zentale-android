@@ -47,6 +47,10 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.filled.Camera
+import androidx.compose.material.icons.outlined.Camera
+import androidx.compose.material.icons.outlined.PhotoCamera
+import androidx.compose.material.icons.outlined.PhotoLibrary
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.ModalBottomSheet
@@ -63,6 +67,7 @@ import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleOwner
@@ -150,12 +155,36 @@ fun CreateStoryScreen(
                                 onCameraRequiredPermission?.invoke()
                             }
                         },
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.2f)
+                        ),
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(vertical = dimensionResource(id = R.dimen.content_padding))
                     ) {
-                        Text(text = stringResource(id = R.string.create_take_a_picture))
+                        Icon(
+                            imageVector = Icons.Outlined.PhotoCamera,
+                            contentDescription = null,
+                            modifier = Modifier
+                                .padding(horizontal = dimensionResource(id = R.dimen.content_padding))
+                                .size(24.dp),
+                            tint = MaterialTheme.colorScheme.primary
+                        )
+                        Text(
+                            text = stringResource(id = R.string.create_take_a_picture),
+                            style = MaterialTheme.typography.bodyLarge.copy(
+                                color = MaterialTheme.colorScheme.primary
+                            ),
+                        )
                     }
+                    Text(
+                        modifier = Modifier.fillMaxWidth(),
+                        textAlign = TextAlign.Center,
+                        text = stringResource(id = R.string.create_or),
+                        style = MaterialTheme.typography.bodyMedium.copy(
+                            color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.6f)
+                        )
+                    )
                     AddPhotoFromGallery(onImageFromGallery = {
                         viewModel.updateCapturedPhotoState(it)
                     })
@@ -189,7 +218,6 @@ fun CreateStoryScreen(
                         ),
                         modifier = Modifier.padding(dimensionResource(id = R.dimen.content_padding))
                     )
-
                     Icon(
                         imageVector = Icons.Filled.Bolt,
                         contentDescription = null,
@@ -234,8 +262,7 @@ fun AddPhotoFromGallery(
 
     Column(
         modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp),
+            .fillMaxSize(),
         verticalArrangement = Arrangement.Center
     ) {
         Button(
@@ -258,9 +285,24 @@ fun AddPhotoFromGallery(
             },
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(vertical = 8.dp)
+                .padding(vertical = 8.dp),
+            colors = ButtonDefaults.buttonColors(
+                containerColor = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.2f)
+            )
         ) {
-            Text(text = stringResource(id = R.string.create_add_from_gallery))
+            Icon(
+                imageVector = Icons.Outlined.PhotoLibrary,
+                contentDescription = null,
+                modifier = Modifier
+                    .padding(horizontal = dimensionResource(id = R.dimen.content_padding))
+                    .size(24.dp),
+                tint = MaterialTheme.colorScheme.primary
+            )
+            Text(text = stringResource(id = R.string.create_add_from_gallery),
+                style = MaterialTheme.typography.bodyLarge.copy(
+                    color = MaterialTheme.colorScheme.primary
+                )
+            )
         }
     }
 }
