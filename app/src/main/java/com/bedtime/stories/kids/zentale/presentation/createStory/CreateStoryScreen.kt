@@ -44,19 +44,30 @@ import androidx.camera.core.ImageProxy
 import androidx.camera.view.LifecycleCameraController
 import androidx.camera.view.PreviewView
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.MaterialTheme.colors
 import androidx.compose.material.icons.filled.Camera
 import androidx.compose.material.icons.outlined.Camera
 import androidx.compose.material.icons.outlined.PhotoCamera
 import androidx.compose.material.icons.outlined.PhotoLibrary
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExposedDropdownMenuBox
+import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.ExtendedFloatingActionButton
+import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.MenuDefaults
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SheetValue
+import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.rememberModalBottomSheetState
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -67,6 +78,7 @@ import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
+import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.ContextCompat
@@ -197,6 +209,19 @@ fun CreateStoryScreen(
                                 .size(100.dp)
                         )
                     }
+                    HorizontalDivider(
+                        modifier = Modifier.padding(vertical = dimensionResource(id = R.dimen.double_content_padding))
+                    )
+                    Text(
+                        text = stringResource(id = R.string.create_additional_filters),
+                        style = MaterialTheme.typography.bodyLarge.copy(
+                            color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.6f)
+                        )
+                    )
+
+                    LanguageDropdownMenu{
+                        println("language $it")
+                    }
                 }
                 Button(
                     shape = RoundedCornerShape(
@@ -298,7 +323,8 @@ fun AddPhotoFromGallery(
                     .size(24.dp),
                 tint = MaterialTheme.colorScheme.primary
             )
-            Text(text = stringResource(id = R.string.create_add_from_gallery),
+            Text(
+                text = stringResource(id = R.string.create_add_from_gallery),
                 style = MaterialTheme.typography.bodyLarge.copy(
                     color = MaterialTheme.colorScheme.primary
                 )
@@ -355,6 +381,53 @@ fun CameraScreen(
                     }
                 }
             )
+        }
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun LanguageDropdownMenu(
+    onLanguageSelected: (String) -> Unit
+) {
+    var expanded by remember { mutableStateOf(false) }
+    val selectLanguageText = stringResource(id = R.string.create_story_select_language)
+    val languages = stringArrayResource(id = R.array.create_story_languages)
+    var selectedLanguage by remember { mutableStateOf(selectLanguageText) }
+
+    ExposedDropdownMenuBox(
+        expanded = expanded,
+        onExpandedChange = { expanded = !expanded },
+    ) {
+        TextField(
+            value = selectedLanguage,
+            onValueChange = {},
+            readOnly = true,
+            trailingIcon = {
+                ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded)
+            },
+            modifier = Modifier
+                .fillMaxWidth()
+                .menuAnchor()
+                .clickable { expanded = !expanded }
+        )
+        ExposedDropdownMenu(
+            expanded = expanded,
+            onDismissRequest = { expanded = false }
+        ) {
+            languages.forEach { language ->
+                DropdownMenuItem(
+                    text = { Text(text = language) },
+                    colors = MenuDefaults.itemColors(
+                        textColor = MaterialTheme.colorScheme.primary,
+                    ),
+                    onClick = {
+                        selectedLanguage = language
+                        expanded = false
+                        onLanguageSelected(language)
+                    }
+                )
+            }
         }
     }
 }
