@@ -144,7 +144,6 @@ fun CreateStoryScreen(
                     }) {
                         Text("Hide bottom sheet")
                     }
-                    println("capturedPhoto $capturedPhoto")
                 }
             }
             Column(
@@ -228,7 +227,7 @@ fun CreateStoryScreen(
                         dimensionResource(id = R.dimen.double_content_padding)
                     ),
                     onClick = {
-                        navController.navigate("createStory")
+//                        navController.navigate("story")
                     },
                     modifier = Modifier
                         .padding(

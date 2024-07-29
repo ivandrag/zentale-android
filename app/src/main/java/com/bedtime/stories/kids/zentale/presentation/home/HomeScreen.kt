@@ -104,7 +104,7 @@ fun HomeScreen(
                         text = stringResource(id = R.string.home_your_stories),
                         style = MaterialTheme.typography.bodyLarge
                     )
-                    ImageScrollView(viewModel = viewModel)
+                    ImageScrollView(viewModel = viewModel, navController = navController)
                 }
 
                 Button(
@@ -161,7 +161,10 @@ fun imageCell(imageResId: Int, storyId: String, onClick: (String) -> Unit) {
 }
 
 @Composable
-fun ImageScrollView(viewModel: HomeViewModel) {
+fun ImageScrollView(
+    viewModel: HomeViewModel,
+    navController: NavHostController
+) {
     val images by viewModel.allImages
 
     Row(
@@ -171,7 +174,7 @@ fun ImageScrollView(viewModel: HomeViewModel) {
         images.keys.sorted().forEach { storyId ->
             images[storyId]?.let { imageResId ->
                 imageCell(imageResId = imageResId, storyId = storyId) { selectedStoryId ->
-                    viewModel.selectedStoryId.value = selectedStoryId
+                    navController.navigate("story/$selectedStoryId")
                     viewModel.isStoryViewPresented.value = true
                 }
             }

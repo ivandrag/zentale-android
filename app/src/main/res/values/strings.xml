@@ -32,4 +32,6 @@
         <item>Romanian</item>
     </array>
 
+    <string name="story_title_text">Story</string>
+
 </resources>

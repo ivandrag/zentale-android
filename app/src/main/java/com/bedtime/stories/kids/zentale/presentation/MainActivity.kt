@@ -19,6 +19,7 @@ import com.bedtime.stories.kids.zentale.presentation.createStory.CreateStoryScre
 import com.bedtime.stories.kids.zentale.presentation.home.HomeScreen
 import com.bedtime.stories.kids.zentale.presentation.login.LoginScreen
 import com.bedtime.stories.kids.zentale.presentation.profile.ProfileScreen
+import com.bedtime.stories.kids.zentale.presentation.story.StoryScreen
 import com.bedtime.stories.kids.zentale.presentation.utils.ZentaleTheme
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.PermissionState
@@ -78,6 +79,10 @@ fun NavigationComponent() {
                     hasCameraPermission = cameraPermissionState.status.isGranted,
                     onCameraRequiredPermission = cameraPermissionState::launchPermissionRequest
                 )
+            }
+            composable("story/{storyId}") { backStackEntry ->
+                val storyId = backStackEntry.arguments?.getString("storyId")
+                StoryScreen(navController = navController, storyId = storyId)
             }
         }
     }

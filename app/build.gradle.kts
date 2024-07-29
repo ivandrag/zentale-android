@@ -73,6 +73,7 @@ dependencies {
     implementation(libs.cameraTwo)
     implementation(libs.lifeCycleRunTimeComposeAndroid)
     implementation(libs.androidx.ui.text.google.fonts)
+    implementation(libs.firebase.firestore.ktx)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
