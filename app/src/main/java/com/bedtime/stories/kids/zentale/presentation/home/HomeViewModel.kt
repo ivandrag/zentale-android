@@ -2,9 +2,15 @@ package com.bedtime.stories.kids.zentale.presentation.home
 
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.bedtime.stories.kids.zentale.R
+import com.bedtime.stories.kids.zentale.domain.StoryRepository
+import com.bedtime.stories.kids.zentale.presentation.shared.model.StoryType
+import kotlinx.coroutines.launch
 
-class HomeViewModel : ViewModel() {
+class HomeViewModel(
+    private val storyRepository: StoryRepository
+) : ViewModel() {
     val allImages = mutableStateOf(mapOf<String, Int>())
     val selectedStoryId = mutableStateOf<String?>(null)
     val isStoryViewPresented = mutableStateOf(false)
@@ -34,5 +40,9 @@ class HomeViewModel : ViewModel() {
             if (imageResId != null) storyId to imageResId else null
         }.filterNotNull().toMap()
         allImages.value = images
+    }
+
+    fun setDemoStoryId(selectedStoryId: String) = viewModelScope.launch {
+        storyRepository.saveStoryType(StoryType.ViewDemo(storyId = selectedStoryId))
     }
 }

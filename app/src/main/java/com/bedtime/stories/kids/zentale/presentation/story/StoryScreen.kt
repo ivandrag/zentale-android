@@ -28,21 +28,34 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import com.bedtime.stories.kids.zentale.R
+import com.bedtime.stories.kids.zentale.presentation.shared.model.StoryType
 import com.bedtime.stories.kids.zentale.presentation.utils.shared.Toolbar
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun StoryScreen(
-    navController: NavHostController,
-    storyId: String?
+    navController: NavHostController
 ) {
     val viewModel: StoryViewModel = koinViewModel()
     val state by viewModel.state.collectAsStateWithLifecycle()
-    LaunchedEffect(storyId) {
-        viewModel.loadStory(storyId)
-    }
+//    LaunchedEffect(storyId) {
+//        viewModel.loadStory(storyId)
+//    }
 
-    println("state $state")
+//    when (storyType) {
+//        is StoryType.Create -> {
+//            Text("Creating story with ID: ${storyType.storyId}, Language: ${storyType.language}")
+//        }
+//        is StoryType.ViewDemo -> {
+//            Text("Viewing demo story with ID: ${storyType.storyId}")
+//        }
+//        is StoryType.ViewStory -> {
+//            Text("Viewing story with ID: ${storyType.storyId}")
+//        }
+//        else -> {
+//            Text("No story type found")
+//        }
+//    }
 
     Scaffold(
         modifier = Modifier

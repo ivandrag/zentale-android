@@ -33,6 +33,7 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.net.Uri
+import android.os.Bundle
 import android.util.Log
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.widget.LinearLayout
@@ -44,16 +45,14 @@ import androidx.camera.core.ImageProxy
 import androidx.camera.view.LifecycleCameraController
 import androidx.camera.view.PreviewView
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.MaterialTheme.colors
 import androidx.compose.material.icons.filled.Camera
-import androidx.compose.material.icons.outlined.Camera
 import androidx.compose.material.icons.outlined.PhotoCamera
 import androidx.compose.material.icons.outlined.PhotoLibrary
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuBox
@@ -63,11 +62,9 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MenuDefaults
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SheetValue
 import androidx.compose.material3.TextField
-import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.rememberModalBottomSheetState
-import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -84,8 +81,10 @@ import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import coil.compose.rememberAsyncImagePainter
+import com.bedtime.stories.kids.zentale.presentation.utils.extensions.navigate
+import com.bedtime.stories.kids.zentale.presentation.shared.model.StoryType
 import com.bedtime.stories.kids.zentale.presentation.utils.extensions.rotateBitmap
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
 import java.util.concurrent.Executor
@@ -101,9 +100,23 @@ fun CreateStoryScreen(
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
     val scope = rememberCoroutineScope()
     var showBottomSheet by remember { mutableStateOf(false) }
-    val cameraState: CreateStoryState by viewModel.state.collectAsStateWithLifecycle()
-    val capturedPhoto: ImageBitmap? = remember(cameraState.capturedImage.hashCode()) {
-        cameraState.capturedImage?.asImageBitmap()
+    val state: CreateStoryState by viewModel.state.collectAsStateWithLifecycle()
+    val capturedPhoto: ImageBitmap? = remember(state.capturedImage.hashCode()) {
+        state.capturedImage?.asImageBitmap()
+    }
+
+    LaunchedEffect(Unit) {
+        viewModel.event.collectLatest { event ->
+            when (event) {
+                is CreateStoryEvent.OnImageUploadSuccess -> {
+                    navController.navigate(route = "story")
+                }
+
+                is CreateStoryEvent.OnImageUploadFailed -> {
+                    println("failed")
+                }
+            }
+        }
     }
 
     Scaffold(
@@ -145,6 +158,9 @@ fun CreateStoryScreen(
                         Text("Hide bottom sheet")
                     }
                 }
+            }
+            if (state.isLoading) {
+                CircularProgressIndicator()
             }
             Column(
                 modifier = Modifier
@@ -218,7 +234,7 @@ fun CreateStoryScreen(
                         )
                     )
 
-                    LanguageDropdownMenu{
+                    LanguageDropdownMenu {
                         println("language $it")
                     }
                 }
@@ -227,7 +243,7 @@ fun CreateStoryScreen(
                         dimensionResource(id = R.dimen.double_content_padding)
                     ),
                     onClick = {
-//                        navController.navigate("story")
+                        viewModel.uploadImage()
                     },
                     modifier = Modifier
                         .padding(

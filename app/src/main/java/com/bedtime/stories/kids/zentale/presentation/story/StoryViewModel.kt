@@ -1,9 +1,9 @@
 package com.bedtime.stories.kids.zentale.presentation.story
 
-import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bedtime.stories.kids.zentale.domain.StoryRepository
+import com.bedtime.stories.kids.zentale.presentation.shared.model.StoryType
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
@@ -14,7 +14,29 @@ class StoryViewModel(
     private val _state = MutableStateFlow(StoryState())
     val state = _state.asStateFlow()
 
-    fun loadStory(storyId: String?) = viewModelScope.launch {
+    init {
+        viewModelScope.launch {
+            storyRepository.story.collect {
+                when (it) {
+                    is StoryType.Create -> {
+
+                    }
+
+                    is StoryType.ViewDemo -> {
+                        loadDemoStory(it.storyId)
+                    }
+
+                    is StoryType.ViewStory -> {
+
+                    }
+
+                    StoryType.Default -> {}
+                }
+            }
+        }
+    }
+
+    private fun loadDemoStory(storyId: String?) = viewModelScope.launch {
         if (storyId != null) {
             val story = storyRepository.fetchDemoStory(storyId)
             if (story == null) {

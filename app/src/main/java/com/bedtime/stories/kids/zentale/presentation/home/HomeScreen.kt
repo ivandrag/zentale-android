@@ -174,7 +174,8 @@ fun ImageScrollView(
         images.keys.sorted().forEach { storyId ->
             images[storyId]?.let { imageResId ->
                 imageCell(imageResId = imageResId, storyId = storyId) { selectedStoryId ->
-                    navController.navigate("story/$selectedStoryId")
+                    viewModel.setDemoStoryId(selectedStoryId)
+                    navController.navigate("story")
                     viewModel.isStoryViewPresented.value = true
                 }
             }
