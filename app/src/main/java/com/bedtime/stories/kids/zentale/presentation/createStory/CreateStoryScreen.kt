@@ -235,7 +235,7 @@ fun CreateStoryScreen(
                     )
 
                     LanguageDropdownMenu {
-                        println("language $it")
+                        viewModel.updateLanguage(it)
                     }
                 }
                 Button(

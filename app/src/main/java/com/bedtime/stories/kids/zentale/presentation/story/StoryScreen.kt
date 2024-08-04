@@ -38,24 +38,6 @@ fun StoryScreen(
 ) {
     val viewModel: StoryViewModel = koinViewModel()
     val state by viewModel.state.collectAsStateWithLifecycle()
-//    LaunchedEffect(storyId) {
-//        viewModel.loadStory(storyId)
-//    }
-
-//    when (storyType) {
-//        is StoryType.Create -> {
-//            Text("Creating story with ID: ${storyType.storyId}, Language: ${storyType.language}")
-//        }
-//        is StoryType.ViewDemo -> {
-//            Text("Viewing demo story with ID: ${storyType.storyId}")
-//        }
-//        is StoryType.ViewStory -> {
-//            Text("Viewing story with ID: ${storyType.storyId}")
-//        }
-//        else -> {
-//            Text("No story type found")
-//        }
-//    }
 
     Scaffold(
         modifier = Modifier
@@ -80,7 +62,7 @@ fun StoryScreen(
                     .verticalScroll(rememberScrollState())
             ) {
                 when (state.status) {
-                    "loading" -> Text(text = "Loading...")
+                    null -> Text(text = "Loading...")
                     "success" -> {
                         Column(
                             modifier = Modifier

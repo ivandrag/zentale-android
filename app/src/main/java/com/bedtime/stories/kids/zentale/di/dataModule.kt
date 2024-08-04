@@ -12,7 +12,7 @@ import org.koin.dsl.module
 
 val dataModule = module {
     factory<SavePhotoLocalDataSource> { SavePhotoLocalDataSourceImpl(get()) }
-    factory<StoryRemoteDataSource> { StoryRemoteDataSourceImpl() }
+    factory<StoryRemoteDataSource> { StoryRemoteDataSourceImpl(get(), get()) }
     factory<CreateStoryRemoteDataSource> { CreateStoryRemoteDataSourceImpl(get()) }
     single<StoryLocalDataSource> { StoryLocalDataSourceImpl() }
 }

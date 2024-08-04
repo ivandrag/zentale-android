@@ -60,4 +60,8 @@ class CreateStoryViewModel(
         _state.value.capturedImage?.recycle()
         super.onCleared()
     }
+
+    fun updateLanguage(language: String) {
+        _state.value = _state.value.copy(language = language)
+    }
 }

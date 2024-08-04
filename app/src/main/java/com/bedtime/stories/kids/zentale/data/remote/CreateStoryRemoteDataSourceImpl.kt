@@ -7,7 +7,10 @@ class CreateStoryRemoteDataSourceImpl(
     private val zentaleApi: ZentaleApi
 ): CreateStoryRemoteDataSource {
 
-    override suspend fun createStory(storyRequest: CreateStoryRequest) = zentaleApi.createStory(
-        body = storyRequest
-    )
+    override suspend fun createStory(storyRequest: CreateStoryRequest): Result<String> {
+        val result = zentaleApi.createStory(
+            body = storyRequest
+        )
+        return Result.success(result.data)
+    }
 }

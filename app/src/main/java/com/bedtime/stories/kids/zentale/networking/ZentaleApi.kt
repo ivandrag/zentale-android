@@ -12,5 +12,5 @@ interface ZentaleApi {
     suspend fun createStory(
         @Header(SHOULD_HAVE_AUTH_HEADERS) shouldHaveAuthHeaders: Boolean = true,
         @Body body: CreateStoryRequest
-    ): CreateStoryResponse
+    ) : CreateStoryResponse
 }

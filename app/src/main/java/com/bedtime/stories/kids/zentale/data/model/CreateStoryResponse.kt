@@ -1,5 +1,6 @@
 package com.bedtime.stories.kids.zentale.data.model
 
+import com.google.firebase.Timestamp
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -12,40 +13,35 @@ import java.time.Instant
 import java.time.LocalDateTime
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
+import java.util.Date
 
 @Serializable
 data class CreateStoryResponse(
-    @SerialName("data") val data: StoryResponse
+    @SerialName("data") val data: String
 )
 
 @Serializable
 data class StoryResponse(
-    @SerialName("storyId") val storyId: String,
-    @SerialName("storyImage") val storyImage: String,
-    @SerialName("storyTitle") val storyTitle: String,
-    @SerialName("storyContent") val storyContent: String,
-    @SerialName("storyLanguage") val storyLanguage: String,
+    @SerialName("storyId") val storyId: String? = null,
+    @SerialName("storyImage") val storyImage: String? = null,
+    @SerialName("storyTitle") val storyTitle: String? = null,
+    @SerialName("storyContent") val storyContent: String? = null,
+    @SerialName("storyLanguage") val storyLanguage: String? = null,
     @SerialName("storyAudioUrl") val storyAudioUrl: String? = null,
     @SerialName("status") val status: String? = null,
     @Serializable(with = FirestoreTimestampSerializer::class)
-    @SerialName("createdAt") val createdAt: Instant
+    @SerialName("createdAt") val createdAt: Date? = null
 )
 
-object FirestoreTimestampSerializer : KSerializer<Instant> {
-    private val formatter = DateTimeFormatter.ofPattern("MMMM d, yyyy 'at' h:mm:ss a z")
+object FirestoreTimestampSerializer : KSerializer<Date> {
+    override val descriptor: SerialDescriptor = PrimitiveSerialDescriptor("Date", PrimitiveKind.STRING)
 
-    override val descriptor: SerialDescriptor = PrimitiveSerialDescriptor("Instant", PrimitiveKind.STRING)
-
-    override fun serialize(encoder: Encoder, value: Instant) {
-        val zonedDateTime = value.atZone(ZoneId.of("UTC+3"))
-        val formattedString = formatter.format(zonedDateTime)
-        encoder.encodeString(formattedString)
+    override fun serialize(encoder: Encoder, value: Date) {
+        encoder.encodeString(value.toString()) // Serialize Date to a String
     }
 
-    override fun deserialize(decoder: Decoder): Instant {
+    override fun deserialize(decoder: Decoder): Date {
         val dateString = decoder.decodeString()
-        val localDateTime = LocalDateTime.parse(dateString, formatter)
-        val zonedDateTime = localDateTime.atZone(ZoneId.of("UTC+3"))
-        return zonedDateTime.toInstant()
+        return Date(dateString)
     }
 }
