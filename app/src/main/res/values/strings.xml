@@ -33,5 +33,6 @@
     </array>
 
     <string name="story_title_text">Story</string>
+    <string name="story_loading_text">Loading the story, please wait up to 1 minute.</string>
 
 </resources>

@@ -70,6 +70,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asImageBitmap
@@ -160,7 +161,9 @@ fun CreateStoryScreen(
                 }
             }
             if (state.isLoading) {
-                CircularProgressIndicator()
+                CircularProgressIndicator(
+                    modifier = Modifier.align(Alignment.Center)
+                )
             }
             Column(
                 modifier = Modifier
@@ -220,8 +223,8 @@ fun CreateStoryScreen(
                             bitmap = capturedPhoto,
                             contentDescription = null,
                             modifier = Modifier
-                                .clip(CircleShape)
                                 .size(100.dp)
+                                .clip(MaterialTheme.shapes.large)
                         )
                     }
                     HorizontalDivider(
@@ -239,8 +242,15 @@ fun CreateStoryScreen(
                     }
                 }
                 Button(
+                    enabled = state.isLoading.not(),
                     shape = RoundedCornerShape(
                         dimensionResource(id = R.dimen.double_content_padding)
+                    ),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = MaterialTheme.colorScheme.primary,
+                        contentColor = MaterialTheme.colorScheme.onBackground,
+                        disabledContainerColor = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.2f),
+                        disabledContentColor = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.6f)
                     ),
                     onClick = {
                         viewModel.uploadImage()
@@ -362,7 +372,7 @@ fun CameraScreen(
         modifier = Modifier.fillMaxSize(),
         floatingActionButton = {
             ExtendedFloatingActionButton(
-                text = { Text(text = "Take photo") },
+                text = { Text(text = stringResource(id = R.string.create_take_a_picture)) },
                 onClick = {
                     capturePhoto(
                         context = context,
