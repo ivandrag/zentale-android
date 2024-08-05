@@ -33,7 +33,6 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.net.Uri
-import android.os.Bundle
 import android.util.Log
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.widget.LinearLayout
@@ -47,7 +46,6 @@ import androidx.camera.view.PreviewView
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.filled.Camera
 import androidx.compose.material.icons.outlined.PhotoCamera
 import androidx.compose.material.icons.outlined.PhotoLibrary
@@ -82,8 +80,6 @@ import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.bedtime.stories.kids.zentale.presentation.utils.extensions.navigate
-import com.bedtime.stories.kids.zentale.presentation.shared.model.StoryType
 import com.bedtime.stories.kids.zentale.presentation.utils.extensions.rotateBitmap
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
