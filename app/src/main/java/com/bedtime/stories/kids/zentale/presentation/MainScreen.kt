@@ -1,6 +1,7 @@
 package com.bedtime.stories.kids.zentale.presentation
 
 import androidx.annotation.StringRes
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.asPaddingValues
@@ -57,7 +58,7 @@ fun MainScreen(
     ) { innerPadding ->
         NavHostContainer(
             navController = navController,
-            modifier = Modifier.padding(innerPadding),
+            modifier = Modifier.padding(PaddingValues(bottom = innerPadding.calculateBottomPadding())),
             cameraPermissionState = cameraPermissionState
         )
     }
