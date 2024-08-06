@@ -21,8 +21,7 @@ fun ProfileScreen(
 ) {
     Scaffold(
         modifier = Modifier
-            .fillMaxSize()
-            .padding(vertical = dimensionResource(id = R.dimen.safe_content_padding)),
+            .fillMaxSize(),
         topBar = {
             Toolbar(
                 title = stringResource(id = R.string.profile_title_text),

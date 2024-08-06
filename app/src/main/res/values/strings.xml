@@ -1,10 +1,13 @@
 <resources>
     <string name="app_name">Zentale</string>
+    <string name="home_bottom_navigation_text">Home</string>
+    <string name="library_bottom_navigation_text">Library</string>
     <string name="file_provider">com.bedtime.stories.kids.zentale.provider</string>
     <string name="google_sign_in_client_id">702563434788-n08dp98o5mokqnsie27t100126povola.apps.googleusercontent.com</string>
     <string name="home_title_text">Home</string>
     <string name="profile_title_text">Profile</string>
     <string name="create_story_title_text">Create Story</string>
+    <string name="loading_text">Loading.. Please wait.</string>
 
     <string name="login_sub_title_text">Personalized stories for adults and kids.</string>
     <string name="login_description_text">Turn toys into unlimited text and audio stories.</string>
@@ -34,5 +37,10 @@
 
     <string name="story_title_text">Story</string>
     <string name="story_loading_text">Loading the story, please wait up to 1 minute.</string>
+    <string name="library_title_text">Library</string>
+    <string name="library_empty_library_text">🌟Whoosh! Our tiger astronaut is zooming across the stars on a story hunt… and it looks like he\'s still searching!</string>
+    <string name="library_empty_library_text_2">But don\'t worry, the adventure doesn\'t have to end here. Grab your explorer\'s hat and create new tales.</string>
+    <string name="library_empty_library_text_3">We can\'t wait to see what wonderful stories you\'ll make.</string>
+    <string name="library_empty_library_text_4">🌈Join the Adventure! Craft your own stories and guide our tiger on his celestial journey</string>
 
 </resources>

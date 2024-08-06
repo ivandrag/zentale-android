@@ -74,20 +74,9 @@ fun NavigationComponent() {
             composable("login") { LoginScreen() }
         }
         navigation(
-            route = "loggedIn", startDestination = "home"
+            route = "loggedIn", startDestination = "main"
         ) {
-            composable("home") { HomeScreen(navController) }
-            composable("profile") { ProfileScreen(navController) }
-            composable("createStory") {
-                CreateStoryScreen(
-                    navController,
-                    hasCameraPermission = cameraPermissionState.status.isGranted,
-                    onCameraRequiredPermission = cameraPermissionState::launchPermissionRequest
-                )
-            }
-            composable(route = "story") {
-                StoryScreen(navController)
-            }
+            composable("main") { MainScreen(cameraPermissionState) }
         }
     }
 }

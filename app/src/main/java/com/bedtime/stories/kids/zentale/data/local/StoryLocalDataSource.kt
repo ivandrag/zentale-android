@@ -1,5 +1,6 @@
 package com.bedtime.stories.kids.zentale.data.local
 
+import com.bedtime.stories.kids.zentale.domain.model.PaginatedResultBO
 import com.bedtime.stories.kids.zentale.domain.model.Story
 import com.bedtime.stories.kids.zentale.presentation.shared.model.StoryType
 import kotlinx.coroutines.flow.Flow
@@ -9,8 +10,11 @@ interface StoryLocalDataSource {
 
     val storyType: Flow<StoryType>
     val story: StateFlow<Story?>
+    val allStories: Flow<PaginatedResultBO>
 
     suspend fun saveStoryType(type: StoryType)
 
     suspend fun saveStory(story: Story?)
+
+    suspend fun saveAllStories(result: PaginatedResultBO)
 }
