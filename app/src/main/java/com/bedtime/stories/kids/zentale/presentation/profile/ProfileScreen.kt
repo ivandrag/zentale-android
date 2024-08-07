@@ -8,16 +8,21 @@ import androidx.compose.material3.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.ArrowBack
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import com.bedtime.stories.kids.zentale.R
 import com.bedtime.stories.kids.zentale.presentation.utils.shared.Toolbar
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun ProfileScreen(
-    navController: NavHostController
+    navController: NavHostController,
+    viewModel: ProfileViewModel = koinViewModel()
 ) {
+    val state: ProfileViewModel.ProfileState by viewModel.state.collectAsStateWithLifecycle()
     Scaffold(
         modifier = Modifier
             .fillMaxSize(),
@@ -33,7 +38,7 @@ fun ProfileScreen(
         Box(
             modifier = Modifier.padding(paddingValues)
         ) {
-            Text("Profile")
+            Text("Text credits: ${state.textCredits}")
         }
     }
 }

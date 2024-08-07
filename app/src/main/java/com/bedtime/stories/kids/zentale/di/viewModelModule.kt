@@ -8,6 +8,7 @@ import com.bedtime.stories.kids.zentale.presentation.home.HomeViewModel
 import com.bedtime.stories.kids.zentale.presentation.createStory.CreateStoryViewModel
 import com.bedtime.stories.kids.zentale.presentation.story.StoryViewModel
 import com.bedtime.stories.kids.zentale.presentation.library.LibraryViewModel
+import com.bedtime.stories.kids.zentale.presentation.profile.ProfileViewModel
 
 val viewModelModule = module {
     viewModelOf(::LoginViewModel)
@@ -16,4 +17,5 @@ val viewModelModule = module {
     viewModelOf(::CreateStoryViewModel)
     viewModelOf(::StoryViewModel)
     viewModelOf(::LibraryViewModel)
+    viewModelOf(::ProfileViewModel)
 }
