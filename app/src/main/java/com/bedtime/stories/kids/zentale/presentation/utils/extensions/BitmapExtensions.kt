@@ -13,8 +13,13 @@ fun Bitmap.rotateBitmap(rotationDegrees: Int): Bitmap {
     return Bitmap.createBitmap(this, 0, 0, width, height, matrix, true)
 }
 
-fun Bitmap.bitmapToByteArray(format: Bitmap.CompressFormat = Bitmap.CompressFormat.PNG, quality: Int = 100): ByteArray {
+fun Bitmap.bitmapToByteArray(
+    format: Bitmap.CompressFormat = Bitmap.CompressFormat.PNG,
+    quality: Int = 100
+): ByteArray {
     val byteArrayOutputStream = ByteArrayOutputStream()
     compress(format, quality, byteArrayOutputStream)
     return byteArrayOutputStream.toByteArray()
 }
+
+fun Bitmap?.notNull() = this != null

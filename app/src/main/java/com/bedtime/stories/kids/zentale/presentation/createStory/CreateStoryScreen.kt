@@ -44,6 +44,7 @@ import androidx.camera.core.ImageProxy
 import androidx.camera.view.LifecycleCameraController
 import androidx.camera.view.PreviewView
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.material.icons.filled.Camera
@@ -60,6 +61,8 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MenuDefaults
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.TextField
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.LaunchedEffect
@@ -80,6 +83,7 @@ import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.bedtime.stories.kids.zentale.presentation.utils.extensions.notNull
 import com.bedtime.stories.kids.zentale.presentation.utils.extensions.rotateBitmap
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -101,6 +105,8 @@ fun CreateStoryScreen(
     val capturedPhoto: ImageBitmap? = remember(state.capturedImage.hashCode()) {
         state.capturedImage?.asImageBitmap()
     }
+    val snackBarHostState = remember { SnackbarHostState() }
+    val errorMessage = stringResource(id = R.string.create_story_upload_failed)
 
     LaunchedEffect(Unit) {
         viewModel.event.collectLatest { event ->
@@ -110,13 +116,14 @@ fun CreateStoryScreen(
                 }
 
                 is CreateStoryEvent.OnImageUploadFailed -> {
-                    // Display error message
+                    snackBarHostState.showSnackbar(message = errorMessage)
                 }
             }
         }
     }
 
     Scaffold(
+        snackbarHost = { SnackbarHost(snackBarHostState) },
         modifier = Modifier
             .fillMaxSize(),
         topBar = {
@@ -156,9 +163,16 @@ fun CreateStoryScreen(
                 }
             }
             if (state.isLoading) {
-                CircularProgressIndicator(
-                    modifier = Modifier.align(Alignment.Center)
-                )
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .fillMaxHeight()
+                        .background(MaterialTheme.colorScheme.background.copy(alpha = 0.3f))
+                        .padding(dimensionResource(id = R.dimen.double_content_padding)),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    CircularProgressIndicator()
+                }
             }
             Column(
                 modifier = Modifier
@@ -237,7 +251,7 @@ fun CreateStoryScreen(
                     }
                 }
                 Button(
-                    enabled = state.isLoading.not(),
+                    enabled = (state.capturedImage.notNull() && state.isLoading.not()),
                     shape = RoundedCornerShape(
                         dimensionResource(id = R.dimen.double_content_padding)
                     ),

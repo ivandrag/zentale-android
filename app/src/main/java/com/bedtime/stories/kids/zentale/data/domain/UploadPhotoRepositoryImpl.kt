@@ -4,6 +4,7 @@ import com.bedtime.stories.kids.zentale.domain.UploadPhotoRepository
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.storage.FirebaseStorage
 import kotlinx.coroutines.tasks.await
+import kotlinx.coroutines.withTimeout
 import java.util.UUID
 
 class UploadPhotoRepositoryImpl(
@@ -12,22 +13,25 @@ class UploadPhotoRepositoryImpl(
 ): UploadPhotoRepository {
 
     override suspend fun uploadAndGetPublicUrl(
-        imageBytes: ByteArray
+        imageBytes: ByteArray,
+        timeoutMillis: Long
     ): String {
         return try {
-            val userId = firebaseAuth.currentUser!!.uid
-            val uniqueID = UUID.randomUUID().toString()
-            val storageRef = storage.reference.child(userId).child("$uniqueID.jpg")
+            withTimeout(timeoutMillis) {
+                val userId = firebaseAuth.currentUser!!.uid
+                val uniqueID = UUID.randomUUID().toString()
+                val storageRef = storage.reference.child(userId).child("$uniqueID.jpg")
 
-            val uploadTaskSnapshot = storageRef.putBytes(imageBytes).await()
+                val uploadTaskSnapshot = storageRef.putBytes(imageBytes).await()
 
-            if (uploadTaskSnapshot.bytesTransferred == imageBytes.size.toLong()) {
-                storageRef.downloadUrl.await().toString()
-            } else {
-                throw Exception("Upload was not successful")
+                if (uploadTaskSnapshot.bytesTransferred == imageBytes.size.toLong()) {
+                    storageRef.downloadUrl.await().toString()
+                } else {
+                    throw Exception("Upload was not successful")
+                }
             }
         } catch (e: Exception) {
-            throw Exception("Upload was not successful")
+            throw Exception("Upload was not successful: ${e.message}", e)
         }
     }
 }
