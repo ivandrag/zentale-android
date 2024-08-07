@@ -55,12 +55,20 @@ class StoryViewModel(
         }
 
     private fun loadStory(storyId: String) = viewModelScope.launch {
-        storyRepository.fetchStory(storyId)
+        runCatching {
+            storyRepository.fetchStory(storyId)
+        }.onFailure {
+            _state.value = _state.value.copy(status = null)
+        }
     }
 
     private fun loadDemoStory(storyId: String?) = viewModelScope.launch {
         if (storyId != null) {
-            storyRepository.fetchDemoStory(storyId)
+            runCatching {
+                storyRepository.fetchDemoStory(storyId)
+            }.onFailure {
+                _state.value = _state.value.copy(status = null)
+            }
         }
     }
 
