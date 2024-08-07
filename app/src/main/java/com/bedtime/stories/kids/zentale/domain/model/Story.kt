@@ -7,5 +7,5 @@ data class Story(
     val storyContent: String = "",
     val storyLanguage: String = "",
     val storyAudioUrl: String = "",
-    val status: String? = null
+    val status: String = "loading"
 )

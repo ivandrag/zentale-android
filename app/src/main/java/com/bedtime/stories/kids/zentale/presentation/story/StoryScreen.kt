@@ -14,9 +14,13 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.ArrowBack
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
@@ -34,16 +38,20 @@ import com.bedtime.stories.kids.zentale.presentation.utils.LottieAnimation
 import com.bedtime.stories.kids.zentale.presentation.utils.shared.Toolbar
 import org.koin.androidx.compose.koinViewModel
 
+const val LOADING_STATUS = "loading"
 private const val SUCCESS_STATUS = "success"
 
 @Composable
 fun StoryScreen(
     navController: NavHostController
 ) {
+    val snackBarHostState = remember { SnackbarHostState() }
     val viewModel: StoryViewModel = koinViewModel()
     val state by viewModel.state.collectAsStateWithLifecycle()
+    val errorMessage = stringResource(id = R.string.story_loading_error)
 
     Scaffold(
+        snackbarHost = { SnackbarHost(snackBarHostState) },
         modifier = Modifier
             .fillMaxSize(),
         topBar = {
@@ -61,7 +69,12 @@ fun StoryScreen(
                 .padding(paddingValues)
         ) {
             when (state.status) {
-                null -> StoryLoadingScreen()
+                null -> {
+                    LaunchedEffect(Unit) {
+                        snackBarHostState.showSnackbar(message = errorMessage)
+                    }
+                }
+                LOADING_STATUS -> StoryLoadingScreen()
                 SUCCESS_STATUS -> StoryContent(state)
             }
         }

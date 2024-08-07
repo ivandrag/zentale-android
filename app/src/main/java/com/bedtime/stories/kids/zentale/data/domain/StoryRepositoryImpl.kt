@@ -11,6 +11,7 @@ import com.bedtime.stories.kids.zentale.domain.model.PaginatedResultBO
 import com.bedtime.stories.kids.zentale.domain.model.Story
 import com.bedtime.stories.kids.zentale.presentation.shared.model.StoryType
 import com.google.firebase.firestore.DocumentSnapshot
+import kotlinx.coroutines.delay
 
 class StoryRepositoryImpl(
     private val createStoryRemoteDataSource: CreateStoryRemoteDataSource,
@@ -23,12 +24,13 @@ class StoryRepositoryImpl(
     override val allStories = storyLocalDataSource.allStories
 
     override suspend fun createStory(storyId: String, imageUrl: String, language: String) {
-        storyLocalDataSource.saveStory(null)
+        storyLocalDataSource.saveStory(Story(status = "loading"))
         val storyRequest = CreateStoryRequest(
             imageUrl = imageUrl,
             languageOfTheStory = language,
             storyId = storyId
         )
+        delay(10000)
         createStoryRemoteDataSource.createStory(storyRequest)
             .onSuccess {
                 fetchStory(storyId)

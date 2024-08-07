@@ -9,6 +9,7 @@
     <string name="create_story_title_text">Create Story</string>
     <string name="loading_text">Loading.. Please wait.</string>
     <string name="create_story_upload_failed">Failed to upload image. Please try again.</string>
+    <string name="story_loading_error">Something went wrong. Please try again.</string>
 
     <string name="login_sub_title_text">Personalized stories for adults and kids.</string>
     <string name="login_description_text">Turn toys into unlimited text and audio stories.</string>

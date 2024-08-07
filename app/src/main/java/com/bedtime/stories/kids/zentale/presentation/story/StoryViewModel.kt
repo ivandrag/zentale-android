@@ -45,10 +45,14 @@ class StoryViewModel(
         }
     }
 
-    private fun createStory(storyId: String, imageUrl: String, language: String) = viewModelScope.launch {
-        storyRepository.createStory(storyId, imageUrl, language)
-
-    }
+    private fun createStory(storyId: String, imageUrl: String, language: String) =
+        viewModelScope.launch {
+            runCatching {
+                storyRepository.createStory(storyId, imageUrl, language)
+            }.onFailure {
+                _state.value = _state.value.copy(status = null)
+            }
+        }
 
     private fun loadStory(storyId: String) = viewModelScope.launch {
         storyRepository.fetchStory(storyId)
@@ -60,7 +64,7 @@ class StoryViewModel(
         }
     }
 
-    private fun generateState(story: Story?) : StoryState {
+    private fun generateState(story: Story?): StoryState {
         return StoryState(
             storyId = story?.storyId,
             storyImage = story?.storyImage ?: "",
