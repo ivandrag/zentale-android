@@ -44,7 +44,9 @@ class LibraryViewModel(
     private fun PaginatedResultBO.toLibraryState() = LibraryState(
         isLoading = false,
         isEmpty = stories.isEmpty(),
-        stories = stories.map { it.toStoryPreview() }
+        stories = _state.value.stories + stories.map {
+            it.toStoryPreview()
+        }
     )
 
     private fun Story.toStoryPreview() = StoryPreview(
