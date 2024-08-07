@@ -1,14 +1,13 @@
 package com.bedtime.stories.kids.zentale.data.remote
 
+import com.bedtime.stories.kids.zentale.data.model.PaginatedResult
 import com.bedtime.stories.kids.zentale.data.model.StoryResponse
 import com.bedtime.stories.kids.zentale.domain.model.Story
 import com.bedtime.stories.kids.zentale.networking.FirestoreSerializer.toObjectWithSerializer
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.QuerySnapshot
 import kotlinx.coroutines.channels.awaitClose
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 
 class StoryRemoteDataSourceImpl(
@@ -88,7 +87,6 @@ class StoryRemoteDataSourceImpl(
                     return@addSnapshotListener
                 }
 
-                println("querySnapshot $querySnapshot")
                 if (querySnapshot != null) {
                     if (querySnapshot.documents.isNotEmpty()) {
                         trySend(
@@ -136,7 +134,6 @@ class StoryRemoteDataSourceImpl(
                 }
 
                 if (querySnapshot != null) {
-                    println("querySnapshot $querySnapshot")
                     if (querySnapshot.documents.isNotEmpty()) {
                         trySend(
                             PaginatedResult(

@@ -49,7 +49,6 @@ fun LoginScreen(
             viewModel.onSuccessfulLogin(tokenId)
         },
         onDialogDismissed = { message ->
-            println("##Error message $message")
 //            viewModel.onErrorLogin()
         }
     )

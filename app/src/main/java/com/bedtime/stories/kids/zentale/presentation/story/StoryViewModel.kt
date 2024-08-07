@@ -40,7 +40,6 @@ class StoryViewModel(
         }
         viewModelScope.launch {
             storyRepository.story.collect { story ->
-                println("story $story")
                 _state.value = generateState(story)
             }
         }

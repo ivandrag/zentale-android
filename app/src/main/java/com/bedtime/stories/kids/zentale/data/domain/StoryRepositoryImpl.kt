@@ -4,7 +4,7 @@ import com.bedtime.stories.kids.zentale.data.local.StoryLocalDataSource
 import com.bedtime.stories.kids.zentale.data.model.CreateStoryRequest
 import com.bedtime.stories.kids.zentale.data.model.StoryResponse
 import com.bedtime.stories.kids.zentale.data.remote.CreateStoryRemoteDataSource
-import com.bedtime.stories.kids.zentale.data.remote.PaginatedResult
+import com.bedtime.stories.kids.zentale.data.model.PaginatedResult
 import com.bedtime.stories.kids.zentale.data.remote.StoryRemoteDataSource
 import com.bedtime.stories.kids.zentale.domain.StoryRepository
 import com.bedtime.stories.kids.zentale.domain.model.PaginatedResultBO

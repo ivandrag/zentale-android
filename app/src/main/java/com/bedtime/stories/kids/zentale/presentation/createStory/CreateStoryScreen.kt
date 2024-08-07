@@ -110,7 +110,7 @@ fun CreateStoryScreen(
                 }
 
                 is CreateStoryEvent.OnImageUploadFailed -> {
-                    println("failed")
+                    // Display error message
                 }
             }
         }

@@ -12,7 +12,6 @@ class HomeViewModel(
     private val storyRepository: StoryRepository
 ) : ViewModel() {
     val allImages = mutableStateOf(mapOf<String, Int>())
-    val selectedStoryId = mutableStateOf<String?>(null)
     val isStoryViewPresented = mutableStateOf(false)
 
     private val storyIds = listOf(

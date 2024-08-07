@@ -1,5 +1,6 @@
 package com.bedtime.stories.kids.zentale.data.remote
 
+import com.bedtime.stories.kids.zentale.data.model.PaginatedResult
 import com.bedtime.stories.kids.zentale.data.model.StoryResponse
 import com.bedtime.stories.kids.zentale.domain.model.Story
 import com.google.firebase.firestore.DocumentSnapshot

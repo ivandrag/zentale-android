@@ -1,6 +1,5 @@
-package com.bedtime.stories.kids.zentale.data.remote
+package com.bedtime.stories.kids.zentale.data.model
 
-import com.bedtime.stories.kids.zentale.data.model.StoryResponse
 import com.google.firebase.firestore.DocumentSnapshot
 
 data class PaginatedResult(

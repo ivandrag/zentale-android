@@ -25,7 +25,6 @@ class CustomInterceptor(
 
         return if (shouldHaveAuthHeaders) {
             val token = auth.currentUser?.getIdToken(false)?.result?.token
-            println("token $token")
 
             val newRequest = originalRequest.newBuilder()
                 .addHeader(AUTHORIZATION, "Bearer $token")
