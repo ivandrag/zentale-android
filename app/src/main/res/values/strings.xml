@@ -4,15 +4,13 @@
     <string name="library_bottom_navigation_text">Library</string>
     <string name="file_provider">com.bedtime.stories.kids.zentale.provider</string>
     <string name="google_sign_in_client_id">702563434788-n08dp98o5mokqnsie27t100126povola.apps.googleusercontent.com</string>
-    <string name="home_title_text">Home</string>
-    <string name="profile_title_text">Profile</string>
     <string name="create_story_title_text">Create Story</string>
     <string name="loading_text">Loading.. Please wait.</string>
     <string name="create_story_upload_failed">Failed to upload image. Please try again.</string>
     <string name="story_loading_error">Something went wrong. Please try again.</string>
 
     <string name="login_sub_title_text">Personalized stories for adults and kids.</string>
-    <string name="login_description_text">Turn toys into unlimited text and audio stories.</string>
+    <string name="login_description_text">Turn toys into unlimited text stories.</string>
     <string name="login_sign_in_with_google">Sign in with Google</string>
     <string name="login_agree_with_terms_start">By signing in, you agree with our</string>
     <string name="login_agree_with_terms_and">\u0020and\u0020</string>
@@ -21,6 +19,7 @@
     <string name="privacy_policy_url">https://www.zentale.io/privacy-policy</string>
     <string name="terms_of_service_url">https://www.zentale.io/terms-of-service</string>
 
+    <string name="home_title_text">Home</string>
     <string name="home_add_a_toy_photo">Add a toy photo</string>
     <string name="home_turn_toys_into_stories">Turn toys into stories with AI</string>
     <string name="home_your_stories">Your stories, created with Ai:</string>
@@ -45,4 +44,7 @@
     <string name="library_empty_library_text_3">We can\'t wait to see what wonderful stories you\'ll make.</string>
     <string name="library_empty_library_text_4">🌈Join the Adventure! Craft your own stories and guide our tiger on his celestial journey</string>
 
+    <string name="profile_title_text">Profile</string>
+    <string name="profile_text_credits">Text credits:</string>
+    <string name="profile_logout_button_text">Logout</string>
 </resources>

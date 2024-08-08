@@ -13,11 +13,7 @@ class UserRemoteDataSourceImpl(
 ): UserRemoteDataSource {
 
     override suspend fun getUser() = callbackFlow {
-        val userId = firebaseAuth.currentUser?.uid
-        if (userId == null) {
-            close(Exception("User not authenticated"))
-            return@callbackFlow
-        }
+        val userId = firebaseAuth.currentUser?.uid ?: return@callbackFlow
 
         val documentReference = firestore
             .collection("users")
@@ -25,7 +21,6 @@ class UserRemoteDataSourceImpl(
 
         val listenerRegistration = documentReference.addSnapshotListener { snapshot, error ->
             if (error != null) {
-                close(error)
                 return@addSnapshotListener
             }
             if (snapshot != null && snapshot.exists()) {

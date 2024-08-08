@@ -14,10 +14,6 @@ class MainViewModel(
     private val _event = MutableSharedFlow<Event>()
     val event = _event.asSharedFlow()
 
-    private val authStateListener = FirebaseAuth.AuthStateListener { auth ->
-
-    }
-
     init {
         firebaseAuth.addAuthStateListener { auth ->
             if (auth.currentUser != null) {
@@ -30,11 +26,6 @@ class MainViewModel(
                 }
             }
         }
-    }
-
-    override fun onCleared() {
-        super.onCleared()
-        firebaseAuth.removeAuthStateListener(authStateListener)
     }
 
     sealed interface Event {
