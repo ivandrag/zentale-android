@@ -95,7 +95,7 @@ fun StoryContent(storyState: StoryState) {
                 contentScale = ContentScale.Crop,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(200.dp)
+                    .height(300.dp)
             )
             Spacer(modifier = Modifier.height(16.dp))
             Text(
