@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bedtime.stories.kids.zentale.domain.StoryRepository
 import com.bedtime.stories.kids.zentale.domain.model.Story
-import com.bedtime.stories.kids.zentale.presentation.shared.model.StoryType
+import com.bedtime.stories.kids.zentale.domain.model.StoryType
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine

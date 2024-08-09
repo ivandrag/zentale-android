@@ -6,7 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.bedtime.stories.kids.zentale.domain.SavePhotoToGalleryRepository
 import com.bedtime.stories.kids.zentale.domain.StoryRepository
 import com.bedtime.stories.kids.zentale.domain.UploadPhotoRepository
-import com.bedtime.stories.kids.zentale.presentation.shared.model.StoryType
+import com.bedtime.stories.kids.zentale.domain.model.StoryType
 import com.bedtime.stories.kids.zentale.presentation.utils.extensions.bitmapToByteArray
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow

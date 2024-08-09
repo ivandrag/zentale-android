@@ -1,4 +1,4 @@
-package com.bedtime.stories.kids.zentale.presentation.shared.model
+package com.bedtime.stories.kids.zentale.domain.model
 
 sealed interface StoryType {
     data object Default : StoryType
