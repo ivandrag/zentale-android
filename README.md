@@ -4,6 +4,8 @@ An Android App that turns toy photos into educational stories for adults and kid
 
 This app was built for the [Gemini API Developer Competition](https://ai.google.dev/competition/).
 
+<img src="https://github.com/ivandrag/zentale-android/blob/main/thumbnail.png" width="300">
+
 ### Demo
 
 If you want to try the app, you can download it from this [Google Drive Link](https://drive.google.com/file/d/10hb6Zcy_XEyWcBH-1bNa2FtObnJlkAeq/view?usp=sharing).
