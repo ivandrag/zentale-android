@@ -11,6 +11,10 @@ This app was built for the [Gemini API Developer Competition](https://ai.google.
 If you want to try the app, you can download it from this [Google Drive Link](https://drive.google.com/file/d/10hb6Zcy_XEyWcBH-1bNa2FtObnJlkAeq/view?usp=sharing).
 Currently, the app is not available on the Play Store, but you can download it from the above Google Drive link.
 
+### Known issues
+
+* Sign in with Google is not working on One Plus devices.
+
 ### How it works
 
 1. The user takes a photo of a toy or adds a photo from the gallery.
